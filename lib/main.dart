@@ -6,6 +6,7 @@ import './screens/product_detail_screen.dart';
 import './screens/cart_screen.dart';
 import './providers/cart_provider.dart';
 import './screens/authentication_screen.dart';
+import './screens/http_practice_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
             AuthenticationScreen.routeName: (ctx) => AuthenticationScreen(),
+            HttpPage.routeName: (ctx) => HttpPage(),
           },
         ),
       );

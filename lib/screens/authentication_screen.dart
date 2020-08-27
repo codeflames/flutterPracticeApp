@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import './http_practice_screen.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   static const routeName = '/authScreen';
@@ -116,7 +117,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 //                                     );
 //                                 }
 //                               );
-                               Navigator.of(context).pop();
+                               Navigator.of(context).pushNamed(HttpPage.routeName);
                             }
                           })
                     ],
