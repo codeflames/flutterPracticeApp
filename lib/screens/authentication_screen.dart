@@ -108,14 +108,15 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                             if(_formKey.currentState.validate()){
                               //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
                               //Navigator.of(context).pushNamed('/');
-                               showDialog(
-                                   context: context,
-                                 builder: (context){
-                                     return AlertDialog(
-                                       content: Text('Your email is ' + _textController.text + ' and your password is ' + _passwordController.text),
-                                     );
-                                 }
-                               );
+//                               showDialog(
+//                                   context: context,
+//                                 builder: (context){
+//                                     return AlertDialog(
+//                                       content: Text('Your email is ' + _textController.text + ' and your password is ' + _passwordController.text),
+//                                     );
+//                                 }
+//                               );
+                               Navigator.of(context).pop();
                             }
                           })
                     ],
