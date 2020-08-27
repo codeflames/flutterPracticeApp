@@ -11,6 +11,14 @@ class AuthenticationScreen extends StatefulWidget {
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
   final _formKey = GlobalKey<FormState>();
+  final _textController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void dispose(){
+    _textController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +71,20 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           }
                           return null;
                         },
+                        controller: _textController,
                         decoration: InputDecoration(
                           labelText: 'Email',
                         ),
                         keyboardType: TextInputType.emailAddress,
                       ),
                       TextFormField(
+                        controller: _passwordController,
+                        validator: (value){
+                          if(value.isEmpty){
+                            return 'Please enter your email address';
+                          }
+                          return null;
+                        },
                         decoration: InputDecoration(
                           labelText: 'Password',
                         ),
@@ -90,8 +106,16 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           ),
                           onPressed: () {
                             if(_formKey.currentState.validate()){
-                              Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
+                              //Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
                               //Navigator.of(context).pushNamed('/');
+                               showDialog(
+                                   context: context,
+                                 builder: (context){
+                                     return AlertDialog(
+                                       content: Text('Your email is ' + _textController.text + ' and your password is ' + _passwordController.text),
+                                     );
+                                 }
+                               );
                             }
                           })
                     ],
