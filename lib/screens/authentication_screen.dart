@@ -1,8 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AuthenticationScreen extends StatelessWidget {
+class AuthenticationScreen extends StatefulWidget {
   static const routeName = '/authScreen';
+
+  @override
+  _AuthenticationScreenState createState() => _AuthenticationScreenState();
+}
+
+class _AuthenticationScreenState extends State<AuthenticationScreen> {
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +50,19 @@ class AuthenticationScreen extends StatelessWidget {
                 width: deviceSize.width * 0.8,
 //                    height: 250,
                 child: Form(
+                  key: _formKey,
                     child: SingleChildScrollView(
                   padding: EdgeInsets.all(9),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       TextFormField(
+                        validator: (value){
+                          if(value.isEmpty){
+                            return 'Please enter your email address';
+                          }
+                          return null;
+                        },
                         decoration: InputDecoration(
                           labelText: 'Email',
                         ),
@@ -66,12 +81,18 @@ class AuthenticationScreen extends StatelessWidget {
                           shape: BeveledRectangleBorder(
                               borderRadius: BorderRadius.only(
                                   bottomRight: Radius.circular(9),
-                                  topLeft: Radius.circular(9))
-                          ),
+                                  topLeft: Radius.circular(9))),
                           color: Colors.black,
-                          child: Text('Login', style: TextStyle(fontSize: 16, color: Colors.purpleAccent),),
-                          onPressed: (){
-                            Navigator.of(context).pushNamed('/');
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.purpleAccent),
+                          ),
+                          onPressed: () {
+                            if(_formKey.currentState.validate()){
+                              Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
+                              //Navigator.of(context).pushNamed('/');
+                            }
                           })
                     ],
                   ),
