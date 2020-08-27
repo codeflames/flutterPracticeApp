@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import './set_album_screen.dart';
 
 Future<Album> fetchAlbum() async {
   final response =
@@ -67,8 +68,9 @@ class _HttpPageState extends State<HttpPage> {
                     style: TextStyle(fontSize: 16, color: Colors.purpleAccent),
                   ),
                   onPressed: () {
-                    //Navigator.of(context).pushNamed(HttpPage.routeName);
+                    Navigator.of(context).pushNamed(SetAlbum.routeName);
                   }),
+              Text('Current Album'),
               Expanded(
                 child: FutureBuilder<Album>(
                     future: futureAlbum,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:practice_app/providers/product_provider.dart';
 import 'package:practice_app/screens/product_home_screen.dart';
+import 'package:practice_app/screens/set_album_screen.dart';
 import 'package:provider/provider.dart';
 import './screens/product_detail_screen.dart';
 import './screens/cart_screen.dart';
@@ -36,6 +37,8 @@ class MyApp extends StatelessWidget {
             CartScreen.routeName: (ctx) => CartScreen(),
             AuthenticationScreen.routeName: (ctx) => AuthenticationScreen(),
             HttpPage.routeName: (ctx) => HttpPage(),
+            SetAlbum.routeName: (ctx) => SetAlbum(),
+
           },
         ),
       );
