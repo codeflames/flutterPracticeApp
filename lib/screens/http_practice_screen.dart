@@ -14,6 +14,14 @@ Future<Album> fetchAlbum() async {
   }
 }
 
+Future<Album> deleteAlbum(String id) async {
+  final response = await http.delete('https://jsonplaceholder.typicode.com/albums/$id');
+  if(response.statusCode == 200){
+    return Album.fromJson(json.decode(response.body));
+  }else{
+    throw Exception('Failed to delete album');
+  }
+}
 class Album {
   final int userId;
   final int id;
@@ -60,8 +68,8 @@ class _HttpPageState extends State<HttpPage> {
               RaisedButton(
                   shape: BeveledRectangleBorder(
                       borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(9),
-                          topLeft: Radius.circular(9))),
+                          topRight: Radius.circular(9),
+                          bottomLeft: Radius.circular(9))),
                   color: Colors.blue,
                   child: Text(
                     'Add Album',
@@ -70,16 +78,37 @@ class _HttpPageState extends State<HttpPage> {
                   onPressed: () {
                     Navigator.of(context).pushNamed(SetAlbum.routeName);
                   }),
-              Text('Current Album'),
               Expanded(
                 child: FutureBuilder<Album>(
                     future: futureAlbum,
                     builder: (context, snapshot) {
+                      if(snapshot.connectionState == ConnectionState.done){
                       if (snapshot.hasData) {
-                        return Center(child: Text(snapshot.data.title));
+                        return Column(
+                          children: <Widget>[
+                            Center(child: Text(snapshot.data.title)),
+                            RaisedButton(
+                                shape: BeveledRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(9),
+                                        topLeft: Radius.circular(9))),
+                                color: Colors.blue,
+                                child: Text(
+                                  'Delete this Album',
+                                  style: TextStyle(fontSize: 16, color: Colors.purpleAccent),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    futureAlbum = deleteAlbum(snapshot.data.id.toString());
+                                  });
+                                }),
+                            Text('Current Album'),
+                          ],
+                        );
                       } else if (snapshot.hasError) {
                         return Center(
                             child: Text('there was an error fetching the album'));
+                      }
                       }
                       return Center(child: CircularProgressIndicator());
                     }),
