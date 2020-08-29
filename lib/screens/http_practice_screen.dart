@@ -22,6 +22,19 @@ Future<Album> deleteAlbum(String id) async {
     throw Exception('Failed to delete album');
   }
 }
+
+Future<Album> updateAlbum(String title) async{
+  final response = await http.put('https://jsonplaceholder.typicode.com/albums/1',
+  body: json.encode(<String, String>{
+    'title' : title,
+  }));
+
+  if(response.statusCode == 200){
+    return Album.fromJson(json.decode(response.body));
+  }else{
+    throw Exception('Failed to update this Album');
+  }
+}
 class Album {
   final int userId;
   final int id;
@@ -47,6 +60,7 @@ class HttpPage extends StatefulWidget {
 
 class _HttpPageState extends State<HttpPage> {
   Future<Album> futureAlbum;
+  final textController = TextEditingController();
 
   @override
   void initState() {
@@ -56,6 +70,7 @@ class _HttpPageState extends State<HttpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textFromTextController = textController.text;
     return Scaffold(
         appBar: AppBar(
           title: Text('Albums'),
@@ -78,6 +93,7 @@ class _HttpPageState extends State<HttpPage> {
                   onPressed: () {
                     Navigator.of(context).pushNamed(SetAlbum.routeName);
                   }),
+
               Expanded(
                 child: FutureBuilder<Album>(
                     future: futureAlbum,
@@ -87,6 +103,25 @@ class _HttpPageState extends State<HttpPage> {
                         return Column(
                           children: <Widget>[
                             Center(child: Text(snapshot.data.title)),
+                            TextField(
+                              controller: textController,
+                              decoration: InputDecoration(hintText: 'Enter new Title'),
+                            ),
+                            RaisedButton(
+                                shape: BeveledRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(9),
+                                        bottomLeft: Radius.circular(9))),
+                                color: Colors.blue,
+                                child: Text(
+                                  'update Album',
+                                  style: TextStyle(fontSize: 16, color: Colors.purpleAccent),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    futureAlbum = updateAlbum(textFromTextController);
+                                  });
+                                }),
                             RaisedButton(
                                 shape: BeveledRectangleBorder(
                                     borderRadius: BorderRadius.only(
